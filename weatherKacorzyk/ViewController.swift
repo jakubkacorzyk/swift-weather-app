@@ -13,10 +13,11 @@ class ViewController: UIViewController {
     @IBOutlet weak var img: UIImageView!
 
     @IBOutlet weak var date: UITextField!
+    @IBOutlet weak var weatherState: UITextField!
+    @IBOutlet weak var pressure: UITextField!
     @IBOutlet weak var rain: UITextField!
     @IBOutlet weak var maxTemp: UITextField!
     @IBOutlet weak var minTemp: UITextField!
-    @IBOutlet weak var pressure: UITextField!
     @IBOutlet weak var windSpeed: UITextField!
     @IBOutlet weak var windDirection: UITextField!
     
@@ -59,7 +60,7 @@ class ViewController: UIViewController {
     }
     
     func downloadImage(imgName : String) {
-        let urlString = "https://www.metaweather.com/static/img/weather/png/" + imgName + ".png"
+        let urlString = "https://www.metaweather.com/static/img/weather/png/64/" + imgName + ".png"
         guard let url = URL(string: urlString) else { return }
         
         URLSession.shared.dataTask(with: url) { (data, response, error) in
@@ -80,6 +81,7 @@ class ViewController: UIViewController {
         DispatchQueue.main.async {
             let dayData = self.weather[self.currentIndex]
             self.date.text = (dayData["applicable_date"] as? String)
+            self.weatherState.text = (dayData["weather_state_name"] as? String)
             self.minTemp.text = (((dayData["min_temp"] as? Double)?.format(f: self.doubleFormat))?.description ?? "") + " °C"
             self.maxTemp.text = (((dayData["max_temp"] as? Double)?.format(f: self.doubleFormat))?.description ?? "") + " °C"
             self.windSpeed.text = (((dayData["wind_speed"] as? Double)?.format(f: self.doubleFormat))?.description ?? "") + " km/h"
